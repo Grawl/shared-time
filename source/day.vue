@@ -1,6 +1,7 @@
 <template lang='pug'>
 	.day(
 	v-bind:style='`width: ${width}px`'
+	:class="{ 'showOddHours': sizeMedium }"
 	)
 		.measure
 			.measureHour(v-for='(v, i) in 24 + 1')
@@ -25,6 +26,11 @@
 .day
 	position: relative
 	flex-shrink: 0
+	&.showOddHours
+		.measureHour
+			&:nth-child(odd)
+				.measureHourLabel
+					visibility: hidden
 .measure
 	display: flex
 	flex-flow: row
@@ -54,6 +60,7 @@
 	position: relative
 	height: 1rem
 	margin-top: 2rem
+	margin-bottom: 1rem
 .timeFill
 	$size: 40%
 	position: absolute
@@ -92,6 +99,9 @@ export default {
 		'width',
 	],
 	computed: {
+		sizeMedium() {
+			return Boolean(this.width < 400)
+		},
 		match() {
 			return this.day.match
 		},
